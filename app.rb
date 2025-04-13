@@ -13,3 +13,19 @@ end
 get '/visit' do
 	erb :visit
 end
+
+post '/visit' do
+
+	@username = params[:username]
+	@phone = params[:@phone]
+	@datetime = params[:datetime]
+
+	f = File.open "public/user.txt", "a"
+	f.write "#{@username}, телефон: #{@phone}, дата и время: #{@datetime}\n"
+	f.close
+
+	erb :visit
+
+
+end
+
