@@ -16,17 +16,17 @@ end
 
 post '/visit' do
 
-	@username = params[:username]
+	@username = params[:username].capitalize
 	@phone = params[:phone]
 	@datetime = params[:datetime]
+	@master = params[:master]
 
-	input_user = {:username => "Введите имя", :phone => "Введите телефон", :datetime => "Введите дату и время"}
+	input_user = {:username => "Введите имя", :phone => "Введите телефон", :datetime => "Введите дату и время", :master => "Выбирите мастера"}
 
 	input_user.each do |key, value|
 
-		if params[key] == ""
+		if params[key].to_s.strip.empty?
 			@error = input_user[key]
-
 			return erb :visit
 		end
 
@@ -34,10 +34,10 @@ post '/visit' do
 
 
 	f = File.open "public/user.txt", "a"
-	f.write "#{@username}, телефон: #{@phone}, дата и время: #{@datetime}\n"
+	f.write "#{@username}, телефон: #{@phone}, дата и время: #{@datetime}, мастер #{@master}\n"
 	f.close
 
-	@message = "#{@username}, вы успешно записаны на #{@datetime}!"
+	@message = "#{@username}, вы успешно записаны на #{@datetime} к мастеру #{@master}!"
 
 	erb :visit
 
