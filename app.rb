@@ -17,14 +17,23 @@ end
 post '/visit' do
 
 	@username = params[:username]
-	@phone = params[:@phone]
+	@phone = params[:phone]
 	@datetime = params[:datetime]
+
+	input_user = {:username => "введите имя", :phone => "введите телефон", :datetime => "введите дату и время"}
+
+	@error = input_user.select{|key, value| params[key].to_s.strip.empty?}.values.join(", ")
+
+	if @error.to_s.strip.empty?
+
+	else
+		erb :visit
+	end
+
 
 	f = File.open "public/user.txt", "a"
 	f.write "#{@username}, телефон: #{@phone}, дата и время: #{@datetime}\n"
 	f.close
-
-	erb :visit
 
 
 end
