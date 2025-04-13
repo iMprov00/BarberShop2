@@ -112,4 +112,34 @@ post '/contacts' do
 
 end
 
+get '/admin' do
+
+	erb :admin
+
+end
+
+post '/admin' do
+
+	@login = params[:login].to_s
+	@password = params[:password].to_s
+
+	input_user = {:login => "Введите логин", :password => "Введите пароль"}
+
+	input_user.each do |key, value|
+
+	if params[key].to_s.strip.empty?
+			@error = input_user[key]
+			return erb :admin
+		end
+	end
+
+	if @login == "1" && @password == "11"
+
+		redirect 'user.txt'
+	else
+		@error = "Неверный логин или пароль!"
+		erb :admin
+	end
+
+end
 
