@@ -1,6 +1,7 @@
 require 'rubygems'
 require 'sinatra'
 require 'sinatra/reloader'
+require 'mail'
 
 get '/' do
 	erb "Hello! <a href=\"https://github.com/bootstrap-ruby/sinatra-bootstrap\">Original</a> pattern has been modified for <a href=\"http://rubyschool.us/\">Ruby School</a>"			
@@ -64,6 +65,46 @@ post '/contacts' do
 			return erb :contacts
 		end
 	end
+
+  # Настройки SMTP для Mail.ru с двухфакторной аутентификацией
+  options = { 
+    :address              => "smtp.mail.ru",
+    :port                 => 465,
+    :domain               => 'mail.ru',
+    :user_name            => 'improv00@mail.ru', # Полный email
+    :password             => 'wjccbw5YknrbBnw8zfDL', # Пароль из 16 символов
+    :authentication       => :login,
+    :ssl                  => true,
+    :enable_starttls_auto => true
+  }
+
+    email_body = <<~BODY
+    Новое сообщение из формы контактов:
+    
+    Имя: #{@username}
+    Email: #{@user_email}
+    Дата: #{Time.now.strftime('%d.%m.%Y %H:%M')}
+    
+    Сообщение:
+    #{@user_message}
+    
+    ---
+    Это автоматическое сообщение, пожалуйста, не отвечайте на него.
+  BODY
+
+  # Формирование и отправка письма с обработкой ошибок
+  
+    Mail.defaults do
+      delivery_method :smtp, options
+    end
+
+
+    Mail.deliver do
+      from    'improv00@mail.ru'
+      to      'stalker91234@gmail.com'
+      subject "Новое сообщение"
+      body    email_body
+    end
 
 	@message = "Ваше сообщение успешно отправлено!"
 
