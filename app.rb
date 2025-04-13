@@ -36,6 +36,8 @@ post '/visit' do
 	f.write "#{@username}, телефон: #{@phone}, дата и время: #{@datetime}\n"
 	f.close
 
+	@message = "#{@username}, вы успешно записаны на #{@datetime}!"
+
 	erb :visit
 
 end

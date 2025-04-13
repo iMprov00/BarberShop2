@@ -40,6 +40,11 @@
 			      <%if @error then %>
 			          <div class="alert alert-danger"><%=@error%></div>
 			      <% end %>
+
+			      <%if @message then %>
+			          <div class="alert alert-success"><%=@message%></div>
+			      <% end %>
+
 			      <%= yield %>
 			</div>
 
