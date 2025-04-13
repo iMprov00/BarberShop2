@@ -20,14 +20,15 @@ post '/visit' do
 	@phone = params[:phone]
 	@datetime = params[:datetime]
 
-	input_user = {:username => "введите имя", :phone => "введите телефон", :datetime => "введите дату и время"}
+	input_user = {:username => "Введите имя", :phone => "Введите телефон", :datetime => "Введите дату и время"}
 
-	@error = input_user.select{|key, value| params[key].to_s.strip.empty?}.values.join(", ")
+	input_user.each do |key, value|
 
-	if @error.to_s.strip.empty?
+		if params[key] == ""
+			@error = input_user[key]
+			return erb :visit
+		end
 
-	else
-		erb :visit
 	end
 
 
@@ -35,6 +36,7 @@ post '/visit' do
 	f.write "#{@username}, телефон: #{@phone}, дата и время: #{@datetime}\n"
 	f.close
 
+	erb :visit
 
 end
 
