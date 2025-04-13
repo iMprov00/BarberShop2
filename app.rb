@@ -26,6 +26,7 @@ post '/visit' do
 
 		if params[key] == ""
 			@error = input_user[key]
+
 			return erb :visit
 		end
 
@@ -39,6 +40,12 @@ post '/visit' do
 	@message = "#{@username}, вы успешно записаны на #{@datetime}!"
 
 	erb :visit
+
+end
+
+get '/contacts' do
+
+	erb :contacts
 
 end
 
