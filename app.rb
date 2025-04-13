@@ -49,3 +49,26 @@ get '/contacts' do
 
 end
 
+post '/contacts' do
+
+	@username = params[:username]
+	@user_email = params[:user_email]
+	@user_message = params[:user_message]
+
+	input_user = {:username => "Введите имя", :user_email => "Введите ваш e-mail", :user_message => "Введите ваше сообщение"}
+
+	input_user.each do |key, value|
+
+		if params[key].to_s.strip.empty?
+			@error = input_user[key]
+			return erb :contacts
+		end
+	end
+
+	@message = "Ваше сообщение успешно отправлено!"
+
+	erb :contacts
+
+end
+
+
